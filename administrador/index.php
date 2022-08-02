@@ -1,3 +1,8 @@
+<?php
+    if ($_POST) {
+        header('Location:inicio.php');
+    }
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -18,13 +23,13 @@
                 <div class="card">
                     <div class="card-header">Login</div>
                     <div class="card-body">
-                        <form>
+                        <form method="POST">
                             <div class = "form-group">
-                                <label for="exampleInputEmail1">Usuario:</label>
+                                <label>Usuario:</label>
                                 <input type="text" class="form-control" name="usuario" placeholder="Ingresa tu usuario.">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Contraseña:</label>
+                                <label>Contraseña:</label>
                                 <input type="password" class="form-control" name="contrasenia" placeholder="Ingresa tu contraseña.">
                             </div>
                             <button type="submit" class="btn btn-primary">Entrar al administrador</button>
