@@ -17,7 +17,7 @@
                 <a class="nav-link" href="index.php">Inicio</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Libros</a>
+                <a class="nav-link" href="productos.php">Libros</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="nosotros.php">Nosotros</a>
