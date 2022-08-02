@@ -11,13 +11,15 @@
   </head>
   <body>
 
+  <?php $url = "http://".$_SERVER['HTTP_HOST']."/sitio-web-libros"; ?>
+
     <nav class="navbar navbar-expand navbar-light bg-light">
         <div class="nav navbar-nav">
             <a class="nav-item nav-link active" href="#">Administrador del sitio web <span class="sr-only">(current)</span></a>
-            <a class="nav-item nav-link" href="#">Inicio</a>
-            <a class="nav-item nav-link" href="#">Libros</a>
-            <a class="nav-item nav-link" href="#">Cerrar</a>
-            <a class="nav-item nav-link" href="#">Ver sitio web</a>
+            <a class="nav-item nav-link" href="<?php echo $url;?>/administrador/inicio.php">Inicio</a>
+            <a class="nav-item nav-link" href="<?php echo $url;?>/administrador/seccion/productos.php">Libros</a>
+            <a class="nav-item nav-link" href="<?php echo $url;?>/administrador/seccion/cerrar.php">Cerrar</a>
+            <a class="nav-item nav-link" href="<?php echo $url; ?>">Ver sitio web</a>
         </div>
     </nav>
 
