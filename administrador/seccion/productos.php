@@ -28,7 +28,24 @@
 </div>
 
 <div class="col-md-7">
-    
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2</td>
+                <td>Libro</td>
+                <td>Imagen</td>
+                <td>Seleccionar | Borrar</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <?php include('../template/pie.php'); ?>
