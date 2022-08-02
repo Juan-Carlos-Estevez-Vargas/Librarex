@@ -3,9 +3,34 @@
     $txtID = (isset($_POST['txtID'])) ? $_POST['txtID'] : "";
     $txtNombre = (isset($_POST['txtNombre'])) ? $_POST['txtNombre'] : "";
     $txtImagen = (isset($_FILES['txtImagen']['name'])) ? $_FILES['txtImagen']['name'] : "";
-    $txtAccion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
+    $accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
 
-    
+    // Conexión a la base de datos
+    $host = "localhost";
+    $bd = "website-administracion-libros-programacion";
+    $usuario = "root";
+    $contrasenia = "";
+
+    try {
+        $conexion = new PDO("mysql:host=$host;dbname=$bd", $usuario, $contrasenia);
+        if ($conexion) { echo "Conectado... a sistema"; }
+    } catch (Exception $ex) {
+        echo $ex->getMessage();
+    }
+
+    switch ($accion) {
+        case "Agregar":
+            $sentenciaSQL = $conexion->prepare("INSERT INTO `libros` (`id`, `nombre`, `imagen`) VALUES (NULL, 'perro', 'perro.jpg');"); 
+            $sentenciaSQL->execute();
+            echo "presionado agregar";
+            break;
+        case "Modificar":
+            echo "presionado modificar";
+            break;
+        case "Cancelar":
+            echo "presionado cancelar";
+            break;
+    }
 ?>
 
 <div class="col-md-5">
