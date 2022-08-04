@@ -25,6 +25,13 @@
             break;
 
         case "Seleccionar":
+            $sentenciaSQL = $conexion->prepare("SELECT * FROM libros WHERE id = :id");
+            $sentenciaSQL->bindParam(':id', $txtID);
+            $sentenciaSQL->execute();
+            $libro = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+            $txtNombre = $libro['nombre'];
+            $txtImagen = $libro['imagen'];
             break;
 
         case "Borrar":
@@ -46,14 +53,15 @@
             <form method="POST" enctype="multipart/form-data">
                 <div class = "form-group">
                     <label for="txtID">ID:</label>
-                    <input type="text" class="form-control" name="txtID" id="txtID" placeholder="ID">
+                    <input type="text" class="form-control" value="<?php echo $txtID; ?>" name="txtID" id="txtID" placeholder="ID">
                 </div>
                 <div class = "form-group">
                     <label for="txtNombre">Nombre:</label>
-                    <input type="text" class="form-control" name="txtNombre" id="txtNombre" placeholder="Nombre del libro">
+                    <input type="text" class="form-control" value="<?php echo $txtNombre; ?>" name="txtNombre" id="txtNombre" placeholder="Nombre del libro">
                 </div>
                 <div class = "form-group">
                     <label for="txtImagen">Imagen</label>
+                    <?php echo $txtImagen; ?>
                     <input type="file" class="form-control" name="txtImagen" id="txtImagen" placeholder="ID">
                 </div>
                 <div class="btn-group" role="group" aria-label="">
@@ -83,7 +91,6 @@
                 <td><?php echo $libro['nombre'] ?></td>
                 <td><?php echo $libro['imagen'] ?></td>
                 <td>
-                    Seleccionar  |  Borrar
                     <form method="POST">
                         <input type="hidden" name="txtID" id="txtID" value="<?php echo $libro['id'] ?>" />
                         <input type="submit" name="accion" value="Seleccionar" class="btn btn-primary" />
