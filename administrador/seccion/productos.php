@@ -1,28 +1,18 @@
 <?php include('../template/cabecera.php'); ?>
 <?php
-    $txtID = (isset($_POST['txtID'])) ? $_POST['txtID'] : "";
+    $txtID = (isset($_POST["txtID"])) ? $_POST["txtID"] : "";
     $txtNombre = (isset($_POST['txtNombre'])) ? $_POST['txtNombre'] : "";
     $txtImagen = (isset($_FILES['txtImagen']['name'])) ? $_FILES['txtImagen']['name'] : "";
     $accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
 
-    // Conexión a la base de datos
-    $host = "localhost";
-    $bd = "website-administracion-libros-programacion";
-    $usuario = "root";
-    $contrasenia = "";
-
-    try {
-        $conexion = new PDO("mysql:host=$host;dbname=$bd", $usuario, $contrasenia);
-        if ($conexion) { echo "Conectado... a sistema"; }
-    } catch (Exception $ex) {
-        echo $ex->getMessage();
-    }
+    include('../config/bd.php');
 
     switch ($accion) {
         case "Agregar":
-            $sentenciaSQL = $conexion->prepare("INSERT INTO `libros` (`id`, `nombre`, `imagen`) VALUES (NULL, 'perro', 'perro.jpg');"); 
+            $sentenciaSQL = $conexion->prepare("INSERT INTO libros (nombre, imagen) VALUES (:nombre, :imagen);"); 
+            $sentenciaSQL->bindParam(':nombre', $txtNombre);
+            $sentenciaSQL->bindParam(':imagen', $txtImagen);
             $sentenciaSQL->execute();
-            echo "presionado agregar";
             break;
         case "Modificar":
             echo "presionado modificar";
@@ -51,9 +41,9 @@
                     <input type="file" class="form-control" name="txtImagen" id="txtImagen" placeholder="ID">
                 </div>
                 <div class="btn-group" role="group" aria-label="">
-                    <button type="button" name="accion" value="Agregar" class="btn btn-success">Agregar</button>
-                    <button type="button" name="accion" value="Modificar" class="btn btn-warning">Modificar</button>
-                    <button type="button" name="accion" value="Cancelar" class="btn btn-info">Cancelar</button>
+                    <button type="submit" name="accion" value="Agregar" class="btn btn-success">Agregar</button>
+                    <button type="submit" name="accion" value="Modificar" class="btn btn-warning">Modificar</button>
+                    <button type="submit" name="accion" value="Cancelar" class="btn btn-info">Cancelar</button>
                 </div>
             </form>
         </div>
