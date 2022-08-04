@@ -22,7 +22,7 @@
   </head>
   <body>
 
-  <?php $url = "http://".$_SERVER['HTTP_HOST']."/sitio-web-libros"; ?>
+  <?php $url = "http://".$_SERVER['HTTP_HOST']/*."/sitio-web-libros"*/; ?>
 
     <nav class="navbar navbar-expand navbar-light bg-light">
         <div class="nav navbar-nav">
