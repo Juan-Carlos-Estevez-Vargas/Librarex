@@ -111,7 +111,12 @@
                 </div>
                 <div class = "form-group">
                     <label for="txtImagen">Imagen</label>
-                    <?php echo $txtImagen; ?>
+                    <br />
+
+                    <?php if ($txtImagen != "") { ?>
+                        <img class="img-thumbnail rounded" src="../../img/<?php echo $txtImagen; ?>" width="100" alt="" srcset="">
+                    <?php } ?>
+
                     <input type="file" class="form-control" name="txtImagen" id="txtImagen" placeholder="ID">
                 </div>
                 <div class="btn-group" role="group" aria-label="">
@@ -139,7 +144,9 @@
             <tr>
                 <td><?php echo $libro['id'] ?></td>
                 <td><?php echo $libro['nombre'] ?></td>
-                <td><?php echo $libro['imagen'] ?></td>
+                <td>
+                    <img class="img-thumbnail rounded" src="../../img/<?php echo $libro['imagen'] ?>" width="100" alt="" srcset="">
+                </td>
                 <td>
                     <form method="POST">
                         <input type="hidden" name="txtID" id="txtID" value="<?php echo $libro['id'] ?>" />
