@@ -8,17 +8,29 @@
     include('../config/bd.php');
 
     switch ($accion) {
+
         case "Agregar":
             $sentenciaSQL = $conexion->prepare("INSERT INTO libros (nombre, imagen) VALUES (:nombre, :imagen);"); 
             $sentenciaSQL->bindParam(':nombre', $txtNombre);
             $sentenciaSQL->bindParam(':imagen', $txtImagen);
             $sentenciaSQL->execute();
             break;
+
         case "Modificar":
             echo "presionado modificar";
             break;
+
         case "Cancelar":
             echo "presionado cancelar";
+            break;
+
+        case "Seleccionar":
+            break;
+
+        case "Borrar":
+            $sentenciaSQL = $conexion->prepare("DELETE FROM libros WHERE id = :id");
+            $sentenciaSQL->bindParam(':id', $txtID);
+            $sentenciaSQL->execute();
             break;
     }
 
@@ -70,7 +82,14 @@
                 <td><?php echo $libro['id'] ?></td>
                 <td><?php echo $libro['nombre'] ?></td>
                 <td><?php echo $libro['imagen'] ?></td>
-                <td>Seleccionar | Borrar</td>
+                <td>
+                    Seleccionar  |  Borrar
+                    <form method="POST">
+                        <input type="hidden" name="txtID" id="txtID" value="<?php echo $libro['id'] ?>" />
+                        <input type="submit" name="accion" value="Seleccionar" class="btn btn-primary" />
+                        <input type="submit" name="accion" value="Borrar" class="btn btn-danger" />
+                    </form>
+                </td>
             </tr>
             <?php } ?>
         </tbody>
