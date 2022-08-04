@@ -21,6 +21,10 @@
             echo "presionado cancelar";
             break;
     }
+
+    $sentenciaSQL = $conexion->prepare("SELECT * FROM libros");
+    $sentenciaSQL->execute();
+    $listaLibros = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <div class="col-md-5">
@@ -61,12 +65,14 @@
             </tr>
         </thead>
         <tbody>
+            <?php foreach($listaLibros as $libro) { ?>
             <tr>
-                <td>2</td>
-                <td>Libro</td>
-                <td>Imagen</td>
+                <td><?php echo $libro['id'] ?></td>
+                <td><?php echo $libro['nombre'] ?></td>
+                <td><?php echo $libro['imagen'] ?></td>
                 <td>Seleccionar | Borrar</td>
             </tr>
+            <?php } ?>
         </tbody>
     </table>
 </div>
