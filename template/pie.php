@@ -3,8 +3,8 @@
     <!-- ======= Footer ======= -->
   <footer class="footer"><br />
     <section class="social">
-      <h2 class="text-light" style="font-size: 3.5em; margin-bottom: 1em; margin-top: -1.5em;">
-        <h2 >Juan Carlos Estevez Vargas</h2>
+      <h2 class="text-light" style="margin-top: -2.5em; font-size: 2em;">
+        Juan Carlos Estevez Vargas
       </h2>
       <div class="links mt-3 text-center" style="font-size: 3.5em; margin-bottom: -1.5em;">
         <a href="https://github.com/Juan-Carlos-Estevez-Vargas" target="_blank"><i class="fa-brands fa-github"></i></a>

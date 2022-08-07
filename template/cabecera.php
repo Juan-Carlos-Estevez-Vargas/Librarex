@@ -11,9 +11,9 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav" style="font-size: 1.2em;">
             <li class="nav-item">
-                <a class="nav-link active" href="#">Libros de Programación</a>
+                <a class="nav-link active" href="#">Lybrarex</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="index.php">Inicio</a>
