@@ -1,0 +1,34 @@
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+.social {
+  margin: 50px;
+}
+
+.social p {
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 20px;
+}
+
+h2 {
+  color: antiquewhite;
+}
+
+a {
+  color: antiquewhite;
+  text-decoration: none;
+}
+
+a :hover {
+  color: aliceblue;
+}
+
+.footer {
+  background: #593196;
+  color: #616161;
+  font-size: 12px;
+  padding: 20px 0;
+  text-align: center;
+  padding-bottom: 20px;
+}
