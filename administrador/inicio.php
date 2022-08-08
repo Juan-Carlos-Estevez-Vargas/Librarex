@@ -13,7 +13,17 @@
             </p>
         </div>
         <div style="margin: -2%; margin-left: 2%;" class="col-md-5">
-            <img width="95%" src="../img/profile-img.jpeg" alt="">
+
+        <?php 
+            include("./config/bd.php");
+
+            $sentenciaSQL = $conexion->prepare("SELECT imagen FROM usuarios WHERE usuario = :usuario");
+            $sentenciaSQL->bindParam(':usuario', $nombreUsuario);
+            $sentenciaSQL->execute();
+            $usuario = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
+        ?>
+
+        <img width="95%" src="../img/<?php echo $usuario['imagen']; ?>">
         </div>
     </div>   
 </div>
