@@ -1,10 +1,24 @@
 <?php
+    include('./config/bd.php');
+
     session_start();
 
+    $txtUsuario = (isset($_POST["usuario"])) ? $_POST["usuario"] : "";
+    $txtPassword = (isset($_POST["contrasenia"])) ? $_POST["contrasenia"] : "";
+
+    $sentenciaSQL = $conexion->prepare("SELECT usuario, password FROM usuarios WHERE usuario = :usuario AND password = :password");
+    $sentenciaSQL->bindParam(':usuario', $txtUsuario);
+    $sentenciaSQL->bindParam(':password', $txtPassword);
+    $sentenciaSQL->execute();
+    $usuario = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+    $txtUsuarioEncontrado = $usuario['usuario'];
+    $txtPasswordEncontrado = $usuario['password'];
+
     if ($_POST) {
-        if (($_POST["usuario"] == "juank") && ($_POST["contrasenia"] == "1234")) {
+        if (($_POST["usuario"] == $txtUsuarioEncontrado) && ($_POST["contrasenia"] == $txtPasswordEncontrado)) {
             $_SESSION["usuario"] = "ok";
-            $_SESSION["nombreUsuario"] = "juank";
+            $_SESSION["nombreUsuario"] = $txtUsuarioEncontrado;
             header('Location:inicio.php');
         } else {
             $mensaje = "Error. El usuario y/o contraseña incorrectos";
