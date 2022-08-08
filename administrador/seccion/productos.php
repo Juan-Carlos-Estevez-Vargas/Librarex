@@ -168,6 +168,7 @@
 
             $txtNombre = $libro['nombre'];
             $txtImagen = $libro['imagen'];
+            $txtLibro = $libro['libro'];
             break;
 
         case "Borrar":
@@ -181,11 +182,28 @@
             $libro = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
 
             /**
+             * Sentencia SQL para obtener el libro de la base de datos.
+             */
+            $sentenciaSQL = $conexion->prepare("SELECT libro FROM libros WHERE id = :id");
+            $sentenciaSQL->bindParam(':id', $txtID);
+            $sentenciaSQL->execute();
+            $libroEncontrado = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+            /**
              * Eliminando la imagen encontrada de la carpeta img del proyecto.
              */
             if ((isset($libro["imagen"])) && ($libro["imagen"] != "default.jpg")) {
                 if (file_exists("../../img/".$libro["imagen"])) {
                     unlink("../../img/".$libro["imagen"]);
+                }
+            }
+
+            /**
+             * Eliminando el libro encontrado de la carpeta libros del proyecto.
+             */
+            if ((isset($libroEncontrado["libro"])) && ($libroEncontrado["libro"] != "default.pdf")) {
+                if (file_exists("../../libros/".$libroEncontrado["libro"])) {
+                    unlink("../../libros/".$libroEncontrado["libro"]);
                 }
             }
 
