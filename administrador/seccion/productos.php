@@ -4,13 +4,14 @@
     $txtNombre = (isset($_POST['txtNombre'])) ? $_POST['txtNombre'] : "";
     $txtImagen = (isset($_FILES['txtImagen']['name'])) ? $_FILES['txtImagen']['name'] : "";
     $accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
+    $categoria = (isset($_POST['categoria'])) ? $_POST['categoria'] : "";
 
     include('../config/bd.php');
 
     switch ($accion) {
 
         case "Agregar":
-            $sentenciaSQL = $conexion->prepare("INSERT INTO libros (nombre, imagen) VALUES (:nombre, :imagen);"); 
+            $sentenciaSQL = $conexion->prepare("INSERT INTO libros (nombre, imagen, categoria) VALUES (:nombre, :imagen, :categoria);"); 
             $sentenciaSQL->bindParam(':nombre', $txtNombre);
 
             $fecha = new DateTime();
@@ -23,6 +24,7 @@
             }
 
             $sentenciaSQL->bindParam(':imagen', $nombreArchivo);
+            $sentenciaSQL->bindParam(':categoria', $categoria);
             $sentenciaSQL->execute();
 
             header("Location:productos.php");
@@ -110,10 +112,12 @@
                     <!-- <label for="txtID">ID:</label> -->
                     <input type="hidden" class="form-control" value="<?php echo $txtID; ?>" name="txtID" id="txtID" placeholder="ID">
                 </div>
+
                 <div class = "form-group">
                     <label for="txtNombre">Nombre:</label>
                     <input type="text" required class="form-control" value="<?php echo $txtNombre; ?>" name="txtNombre" id="txtNombre" placeholder="Nombre del libro">
                 </div>
+
                 <div class = "form-group">
                     <label for="txtImagen">Imagen:</label>
                     <br />
@@ -124,6 +128,20 @@
 
                     <input type="file" required class="form-control" name="txtImagen" id="txtImagen" placeholder="ID">
                 </div>
+
+                <div class = "form-group">
+                    <label for="txtLibro">Libro:</label>
+                    <input type="file" required class="form-control" name="txtLibro" id="txtLibro" placeholder="Ingresa el libro en pdf">
+                </div>
+
+                <div class = "form-group">
+                    <label for="categoria">Categoria:</label>
+                    <select name="categoria" id="categoria" required>
+                        <option value="Programación">Programación</option>    
+                        <option value="Suspenso">Suspenso</option>    
+                    </select>
+                </div>
+
                 <div class="btn-group" role="group" aria-label="">
                     <button type="submit" name="accion" <?php echo ($accion == "Seleccionar") ? "disabled" : "" ?> value="Agregar" class="btn btn-success">Agregar</button>
                     <button type="submit" name="accion" <?php echo ($accion != "Seleccionar") ? "disabled" : "" ?> value="Modificar" class="btn btn-warning">Modificar</button>
@@ -164,5 +182,3 @@
         </tbody>
     </table>
 </div>
-
-<?php include('../template/pie.php'); ?>
