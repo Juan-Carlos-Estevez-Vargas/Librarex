@@ -8,6 +8,7 @@
     $txtID = (isset($_POST["txtID"])) ? $_POST["txtID"] : "";
     $txtNombre = (isset($_POST['txtNombre'])) ? $_POST['txtNombre'] : "";
     $txtImagen = (isset($_FILES['txtImagen']['name'])) ? $_FILES['txtImagen']['name'] : "";
+    $txtLibro = (isset($_FILES['txtLibro']['name'])) ? $_FILES['txtLibro']['name'] : "";
     $accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
     $categoria = (isset($_POST['categoria'])) ? $_POST['categoria'] : "";
 
@@ -18,7 +19,7 @@
      */
     switch ($accion) {
         case "Agregar":
-            $sentenciaSQL = $conexion->prepare("INSERT INTO libros (nombre, imagen, categoria) VALUES (:nombre, :imagen, :categoria);"); 
+            $sentenciaSQL = $conexion->prepare("INSERT INTO libros (nombre, imagen, categoria, libro) VALUES (:nombre, :imagen, :categoria, :libro);"); 
             $sentenciaSQL->bindParam(':nombre', $txtNombre);
 
             /**
@@ -38,6 +39,23 @@
 
             $sentenciaSQL->bindParam(':imagen', $nombreArchivo);
             $sentenciaSQL->bindParam(':categoria', $categoria);
+
+            /**
+             * Generación del nombre del libro en pdf.
+             */
+            $fecha = new DateTime();
+            $nombreLibro = ($txtLibro != "") ? $fecha->getTimestamp()."_".$_FILES["txtLibro"]["name"] : "default.pdf";
+
+            $tmpLibro = $_FILES["txtLibro"]["tmp_name"];
+
+            /**
+             * Moviendo el libro a la carpeta libros del proyecto.
+             */
+            if ($tmpLibro != "") {
+                move_uploaded_file($tmpLibro, "../../libros/".$nombreLibro);
+            }
+
+            $sentenciaSQL->bindParam(':libro', $nombreLibro);
             $sentenciaSQL->execute();
 
             header("Location:productos.php");
@@ -151,7 +169,6 @@
     $sentenciaSQL->execute();
     $listaLibros = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 ?>
-
 <div class="col-md-5">
     <div class="card">
         <div class="card-header">Datos del Libro</div>
