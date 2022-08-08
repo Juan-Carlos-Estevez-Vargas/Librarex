@@ -9,6 +9,7 @@
     $txtNombre = (isset($_POST['txtNombre'])) ? $_POST['txtNombre'] : "";
     $txtImagen = (isset($_FILES['txtImagen']['name'])) ? $_FILES['txtImagen']['name'] : "";
     $txtLibro = (isset($_FILES['txtLibro']['name'])) ? $_FILES['txtLibro']['name'] : "";
+    echo $txtLibro;
     $accion = (isset($_POST['accion'])) ? $_POST['accion'] : "";
     $categoria = (isset($_POST['categoria'])) ? $_POST['categoria'] : "";
 
@@ -72,7 +73,7 @@
             $sentenciaSQL->bindParam(':id', $txtID);
             $sentenciaSQL->execute();
 
-            if ($txtImagen != ""){
+            if ($txtImagen != "" && $txtLibro != ""){
 
                 /**
                  * Obteniendo la imagen del proyecto.
@@ -82,9 +83,21 @@
                 $tmpImagen = $_FILES["txtImagen"]["tmp_name"];
 
                 /**
+                 * Obteniendo el libro del proyecto.
+                 */
+                $fecha = new DateTime();
+                $nombreLibro = ($txtLibro != "") ? $fecha->getTimestamp()."_".$_FILES["txtLibro"]["name"] : "default.pdf";
+                $tmpLibro = $_FILES["txtLibro"]["tmp_name"];
+
+                /**
                  * Moviendo la nueva imagen a la carpeta imagenes del proyecto.
                  */
                 move_uploaded_file($tmpImagen, "../../img/".$nombreArchivo);
+
+                /**
+                 * Moviendo el nuevo libro a la carpeta libros del proyecto.
+                 */
+                move_uploaded_file($tmpLibro, "../../libros/".$nombreLibro);
 
                 /**
                  * Obteniendo la imagen del libro directamente de la base de datos.
@@ -93,6 +106,14 @@
                 $sentenciaSQL->bindParam(':id', $txtID);
                 $sentenciaSQL->execute();
                 $libro = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
+
+                /**
+                 * Obteniendo el libro directamente de la base de datos.
+                 */
+                $sentenciaSQL = $conexion->prepare("SELECT libro FROM libros WHERE id = :id");
+                $sentenciaSQL->bindParam(':id', $txtID);
+                $sentenciaSQL->execute();
+                $libroEncontrado = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
     
                 /**
                  * Eliminando la imagen antigua de la carpeta img del proyecto.
@@ -104,13 +125,30 @@
                 }
 
                 /**
+                 * Eliminando el libro antiguo de la carpeta libros del proyecto.
+                 */
+                if ((isset($libroEncontrado["libro"])) && ($libroEncontrado["libro"] != "default.pdf")) {
+                    if (file_exists("../../libros/".$libroEncontrado["libro"])) {
+                        unlink("../../libros/".$libroEncontrado["libro"]);
+                    }
+                }
+
+                /**
                  * Actualizando la imagen en la base de datos.
                  */
                 $sentenciaSQL = $conexion->prepare("UPDATE libros SET imagen = :imagen WHERE id = :id");
                 $sentenciaSQL->bindParam(':imagen', $nombreArchivo);
                 $sentenciaSQL->bindParam(':id', $txtID);
                 $sentenciaSQL->execute();
-            }            
+
+                /**
+                 * Actualizando el libro en la base de datos.
+                 */
+                $sentenciaSQL = $conexion->prepare("UPDATE libros SET libro = :libro WHERE id = :id");
+                $sentenciaSQL->bindParam(':libro', $nombreLibro);
+                $sentenciaSQL->bindParam(':id', $txtID);
+                $sentenciaSQL->execute();
+            }           
 
             header("Location:productos.php");
             break;
