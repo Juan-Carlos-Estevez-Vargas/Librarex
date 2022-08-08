@@ -1,20 +1,36 @@
 <?php
     include('./config/bd.php');
 
+    // Inicia la sesión del usuario en memoria.
     session_start();
 
+    /**
+     * Obtención de los datos enviados en el formulario.
+     */
     $txtUsuario = (isset($_POST["usuario"])) ? $_POST["usuario"] : "";
     $txtPassword = (isset($_POST["contrasenia"])) ? $_POST["contrasenia"] : "";
 
+    /**
+     * Sentencia SQL para obtener las credenciales de acceso del usuario en 
+     * cuestión.
+     */
     $sentenciaSQL = $conexion->prepare("SELECT usuario, password FROM usuarios WHERE usuario = :usuario AND password = :password");
     $sentenciaSQL->bindParam(':usuario', $txtUsuario);
     $sentenciaSQL->bindParam(':password', $txtPassword);
     $sentenciaSQL->execute();
     $usuario = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
 
+    /**
+     * Credenciales del usuario encontrado en la base de datos.
+     */
     $txtUsuarioEncontrado = $usuario['usuario'];
     $txtPasswordEncontrado = $usuario['password'];
 
+    /**
+     * Validando que los datos se hayan enviado por el método POST.
+     * Validando que las credenciales del usuario coincidan con las
+     * obtenidas de la base de datos.
+     */
     if ($_POST) {
         if (($_POST["usuario"] == $txtUsuarioEncontrado) && ($_POST["contrasenia"] == $txtPasswordEncontrado)) {
             $_SESSION["usuario"] = "ok";

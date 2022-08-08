@@ -17,6 +17,9 @@
         <?php 
             include("./config/bd.php");
 
+            /**
+             * Sentencia SQL para obtener la imagen del usuario que ha iniciado sesión.
+             */
             $sentenciaSQL = $conexion->prepare("SELECT imagen FROM usuarios WHERE usuario = :usuario");
             $sentenciaSQL->bindParam(':usuario', $nombreUsuario);
             $sentenciaSQL->execute();

@@ -1,7 +1,7 @@
 <?php
     // Conexión a la base de datos
     $host = "localhost";
-    $bd = "website-administracion-libros-programacion";
+    $bd = "librarex";
     $usuario = "root";
     $contrasenia = "";
 

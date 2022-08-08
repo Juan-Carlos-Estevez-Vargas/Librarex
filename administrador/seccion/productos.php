@@ -1,5 +1,10 @@
 <?php include('../template/cabecera.php'); ?>
 <?php
+
+    /**
+     * Obtención de los datos obtenidos por el formulario de registro
+     * de un nuevo libro.
+     */
     $txtID = (isset($_POST["txtID"])) ? $_POST["txtID"] : "";
     $txtNombre = (isset($_POST['txtNombre'])) ? $_POST['txtNombre'] : "";
     $txtImagen = (isset($_FILES['txtImagen']['name'])) ? $_FILES['txtImagen']['name'] : "";
@@ -8,17 +13,25 @@
 
     include('../config/bd.php');
 
+    /**
+     * Validando la acción solicitada por el usuario.
+     */
     switch ($accion) {
-
         case "Agregar":
             $sentenciaSQL = $conexion->prepare("INSERT INTO libros (nombre, imagen, categoria) VALUES (:nombre, :imagen, :categoria);"); 
             $sentenciaSQL->bindParam(':nombre', $txtNombre);
 
+            /**
+             * Generación del nombre de la imagen del libro.
+             */
             $fecha = new DateTime();
             $nombreArchivo = ($txtImagen != "") ? $fecha->getTimestamp()."_".$_FILES["txtImagen"]["name"] : "default.jpg";
 
             $tmpImagen = $_FILES["txtImagen"]["tmp_name"];
 
+            /**
+             * Moviendo la imagen a la carpeta imagenes del proyecto.
+             */
             if ($tmpImagen != "") {
                 move_uploaded_file($tmpImagen, "../../img/".$nombreArchivo);
             }
@@ -31,30 +44,50 @@
             break;
 
         case "Modificar":
-            $sentenciaSQL = $conexion->prepare("UPDATE libros SET nombre = :nombre WHERE id = :id");
+
+            /**
+             * Sentencia SQL para actualizar los libros.
+             */
+            $sentenciaSQL = $conexion->prepare("UPDATE libros SET nombre = :nombre, categoria = :categoria WHERE id = :id");
             $sentenciaSQL->bindParam(':nombre', $txtNombre);
+            $sentenciaSQL->bindParam(':categoria', $categoria);
             $sentenciaSQL->bindParam(':id', $txtID);
             $sentenciaSQL->execute();
 
             if ($txtImagen != ""){
 
+                /**
+                 * Obteniendo la imagen del proyecto.
+                 */
                 $fecha = new DateTime();
                 $nombreArchivo = ($txtImagen != "") ? $fecha->getTimestamp()."_".$_FILES["txtImagen"]["name"] : "default.jpg";
                 $tmpImagen = $_FILES["txtImagen"]["tmp_name"];
 
+                /**
+                 * Moviendo la nueva imagen a la carpeta imagenes del proyecto.
+                 */
                 move_uploaded_file($tmpImagen, "../../img/".$nombreArchivo);
 
+                /**
+                 * Obteniendo la imagen del libro directamente de la base de datos.
+                 */
                 $sentenciaSQL = $conexion->prepare("SELECT imagen FROM libros WHERE id = :id");
                 $sentenciaSQL->bindParam(':id', $txtID);
                 $sentenciaSQL->execute();
                 $libro = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
     
+                /**
+                 * Eliminando la imagen antigua de la carpeta img del proyecto.
+                 */
                 if ((isset($libro["imagen"])) && ($libro["imagen"] != "default.jpg")) {
                     if (file_exists("../../img/".$libro["imagen"])) {
                         unlink("../../img/".$libro["imagen"]);
                     }
                 }
 
+                /**
+                 * Actualizando la imagen en la base de datos.
+                 */
                 $sentenciaSQL = $conexion->prepare("UPDATE libros SET imagen = :imagen WHERE id = :id");
                 $sentenciaSQL->bindParam(':imagen', $nombreArchivo);
                 $sentenciaSQL->bindParam(':id', $txtID);
@@ -69,6 +102,9 @@
             break;
 
         case "Seleccionar":
+            /**
+             * Sentencia SQL para obtener un libro en específico.
+             */
             $sentenciaSQL = $conexion->prepare("SELECT * FROM libros WHERE id = :id");
             $sentenciaSQL->bindParam(':id', $txtID);
             $sentenciaSQL->execute();
@@ -79,17 +115,27 @@
             break;
 
         case "Borrar":
+
+            /**
+             * Sentencia SQL para obtener la imagen de un libro de la base de datos.
+             */
             $sentenciaSQL = $conexion->prepare("SELECT imagen FROM libros WHERE id = :id");
             $sentenciaSQL->bindParam(':id', $txtID);
             $sentenciaSQL->execute();
             $libro = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
 
+            /**
+             * Eliminando la imagen encontrada de la carpeta img del proyecto.
+             */
             if ((isset($libro["imagen"])) && ($libro["imagen"] != "default.jpg")) {
                 if (file_exists("../../img/".$libro["imagen"])) {
                     unlink("../../img/".$libro["imagen"]);
                 }
             }
 
+            /**
+             * Sentencia SQL para eliminar un libro de la base de datos.
+             */
             $sentenciaSQL = $conexion->prepare("DELETE FROM libros WHERE id = :id");
             $sentenciaSQL->bindParam(':id', $txtID);
             $sentenciaSQL->execute();
@@ -98,6 +144,9 @@
             break;
     }
 
+    /**
+     * Listando los libros existentes en el sistema.
+     */
     $sentenciaSQL = $conexion->prepare("SELECT * FROM libros");
     $sentenciaSQL->execute();
     $listaLibros = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
@@ -121,12 +170,12 @@
                 <div class = "form-group">
                     <label for="txtImagen">Imagen:</label>
                     <br />
-
+                    <?php echo $txtImagen; ?>
                     <?php if ($txtImagen != "") { ?>
                         <img class="img-thumbnail rounded" src="../../img/<?php echo $txtImagen; ?>" width="250" alt="" srcset="">
                     <?php } ?>
 
-                    <input type="file" required class="form-control" name="txtImagen" id="txtImagen" placeholder="ID">
+                    <input type="file" required class="form-control" name="txtImagen" id="txtImagen">
                 </div>
 
                 <div class = "form-group">

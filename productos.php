@@ -2,11 +2,15 @@
     include("template/cabecera.php"); 
     include("administrador/config/bd.php");
 
+    /**
+     * Sentencia SQL para obtener un listado de libros.
+     */
     $sentenciaSQL = $conexion->prepare("SELECT * FROM libros");
     $sentenciaSQL->execute();
     $listaLibros = $sentenciaSQL->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
+<!-- Listado de los libros en formato HTML -->
 <?php foreach ($listaLibros as $libro) { ?>
 <div class="col-md-3">  
     <div class="card">
