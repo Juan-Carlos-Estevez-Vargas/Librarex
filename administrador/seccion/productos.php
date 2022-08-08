@@ -170,9 +170,8 @@
                 <div class = "form-group">
                     <label for="txtImagen">Imagen:</label>
                     <br />
-                    <?php echo $txtImagen; ?>
                     <?php if ($txtImagen != "") { ?>
-                        <img class="img-thumbnail rounded" src="../../img/<?php echo $txtImagen; ?>" width="250" alt="" srcset="">
+                        <img class="img-thumbnail rounded" src="../../img/<?php echo $txtImagen; ?>" width="35%" alt="" srcset="">
                     <?php } ?>
 
                     <input type="file" required class="form-control" name="txtImagen" id="txtImagen">

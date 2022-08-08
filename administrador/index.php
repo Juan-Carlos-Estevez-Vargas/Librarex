@@ -21,26 +21,21 @@
     $usuario = $sentenciaSQL->fetch(PDO::FETCH_LAZY);
 
     /**
-     * Credenciales del usuario encontrado en la base de datos.
-     */
-    $txtUsuarioEncontrado = $usuario['usuario'];
-    $txtPasswordEncontrado = $usuario['password'];
-
-    /**
      * Validando que los datos se hayan enviado por el método POST.
      * Validando que las credenciales del usuario coincidan con las
      * obtenidas de la base de datos.
      */
     if ($_POST) {
-        if (($_POST["usuario"] == $txtUsuarioEncontrado) && ($_POST["contrasenia"] == $txtPasswordEncontrado)) {
+        if (($_POST["usuario"] == $usuario['usuario']) && ($_POST["contrasenia"] == $usuario['password'])) {
             $_SESSION["usuario"] = "ok";
-            $_SESSION["nombreUsuario"] = $txtUsuarioEncontrado;
+            $_SESSION["nombreUsuario"] = $usuario['usuario'];
             header('Location:inicio.php');
         } else {
             $mensaje = "Error. El usuario y/o contraseña incorrectos";
         }
     }
 ?>
+
 <!doctype html>
 <html lang="en">
   <head>
