@@ -17,6 +17,7 @@
         <img class="card-img-top" src="./img/<?php echo $libro["imagen"]; ?>" alt="">
         <div class="card-body">
             <h4 class="card-title"><?php echo $libro["nombre"]; ?></h4>
+            <p class="card-footer">Categoria: <?php echo $libro["categoria"]; ?></p>
             <a name="" id="" class="btn btn-primary" download href="./libros/<?php echo $libro['libro'];?>" role="button"> Descargar </a>
         </div>
     </div>
