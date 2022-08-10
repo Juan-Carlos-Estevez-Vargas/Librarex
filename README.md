@@ -4,10 +4,10 @@ Librarex es un Aplicativo Web desarrollado en PHP 8 y MySQL 8, el cual se encarg
 * ## Administrador.
 En este apartado, el usuario admin es capáz de administrar el contenido subido al portal, puede registrar un nuevo libro, modificarlo o eliminarlo.
 
-Credenciales de acceso:
+### Credenciales de acceso:
 
-Usuario  ->  Juank
-Contraseña  ->  1234
+* Usuario  ->  Juank
+* Contraseña  ->  1234
 
 # Mis redes sociales
 
