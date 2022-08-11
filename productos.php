@@ -20,7 +20,7 @@
             <p class="card-footer">Categoria: <?php echo $libro["categoria"]; ?></p>
             <a name="" id="" class="btn btn-primary" download href="./libros/<?php echo $libro['libro'];?>" role="button"> Descargar </a>
         </div>
-    </div>
+    </div> <br />
 </div>
 <?php } ?>
 
