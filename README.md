@@ -10,6 +10,8 @@ En este apartado, el usuario admin es capáz de administrar el contenido subido 
  Contraseña  ->  1234
 ```
 
+Puedes ver el proyecto desplegado en la siguiente [ruta.](http://librarrex.000webhostapp.com/)
+
 ### Si te ha gustado el proyecto invitame un café
 <div align="left">
   <a href="https://paypal.me/JEstevezVargas" target="_blank" style="display: inline-block;">
